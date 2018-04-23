@@ -25,7 +25,7 @@
                             </thead>
 
                         </table>
-
+                        
                         <form action="/api/faculties" method="post">
                             First name: <input type="text" name="fname"><br>
                             Last name: <input type="text" name="lname"><br>
@@ -33,14 +33,13 @@
                             <button type="submit" formmethod="post">Submit using POST</button>
                         </form>
 
-
                     </div>
 
                     <!-- jQuery -->
                     <script src="/vendor/jquery/jquery.min.js"></script>
                     <script>
                         $(document).ready(function () {
-                            $('#dataTables-example').DataTable({
+                            var table = $('#dataTables-example').DataTable({
                                 ajax: {
                                     url: '/api/faculties',
                                     dataSrc: '',
@@ -48,11 +47,11 @@
                                 "columnDefs": [
                                     {
                                         "targets": -1,
-                                        "defaultContent": ["<button>Delte</button>"]
+                                        "defaultContent": ["<button id='btnDelete'>Delte</button>"]
                                     },
                                     {
                                         "targets": -2,
-                                        "defaultContent": ["<button>Edit</button>"]
+                                        "defaultContent": ["<button id ='btnEdit'>Edit</button>"]
                                     }
                                 ],
                                 columns: [
@@ -63,7 +62,19 @@
                                     {data: null}
                                 ]
                             })
+
+
+                            $('#dataTables-example tbody').on( 'click', '#btnDelete', function () {
+                                var data = table.row( $(this).parents('tr') ).data();
+                                alert( "Delete: " + data["fullName"] );
+                            } );
+
+                            $('#dataTables-example tbody').on( 'click', '#btnEdit', function () {
+                                var data = table.row( $(this).parents('tr') ).data();
+                                alert( "Edit: " + data["fullName"] );
+                            } );
                         });
+
 
                     </script>
                 </div>
