@@ -27,20 +27,20 @@ public class FacultyRestController implements ICrud<Faculty> {
 
     @Override
     @PostMapping("/faculties")
-    public Faculty create(@Valid @RequestBody Faculty faculty) {
+    public Faculty create(@Valid Faculty faculty) {
         return repository.save(faculty);
     }
 
     @Override
-    @GetMapping("/faculties/{id}")
+    @GetMapping("get/faculties/{id}")
     public Faculty getById(@PathVariable(value = "id") Long id) {
         return findById(id);
     }
 
     @Override
-    @PutMapping("/faculties/{id}")
+    @PutMapping("put/faculties/{id}")
     public Faculty update(@PathVariable(value = "id") Long id,
-                          @Valid @RequestBody Faculty facultyDetails) {
+                          @Valid  Faculty facultyDetails) {
 
         Faculty faculty = findById(id);
         faculty.setFullName(facultyDetails.getFullName());
@@ -49,7 +49,7 @@ public class FacultyRestController implements ICrud<Faculty> {
     }
 
     @Override
-    @DeleteMapping("/faculties/{id}")
+    @DeleteMapping("delete/faculties/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
         Faculty faculty = findById(id);
         repository.delete(faculty);

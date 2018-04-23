@@ -25,68 +25,149 @@
                             </thead>
 
                         </table>
-                        
-                        <form action="/api/faculties" method="post">
-                            First name: <input type="text" name="fname"><br>
-                            Last name: <input type="text" name="lname"><br>
-                            <button type="submit">Submit</button>
-                            <button type="submit" formmethod="post">Submit using POST</button>
-                        </form>
-
                     </div>
 
-                    <!-- jQuery -->
-                    <script src="/vendor/jquery/jquery.min.js"></script>
-                    <script>
-                        $(document).ready(function () {
-                            var table = $('#dataTables-example').DataTable({
-                                ajax: {
-                                    url: '/api/faculties',
-                                    dataSrc: '',
-                                },
-                                "columnDefs": [
-                                    {
-                                        "targets": -1,
-                                        "defaultContent": ["<button id='btnDelete'>Delte</button>"]
+                    <!--Add new -->
+                    <form id='formAddNew' action="/api/faculties" method="post">
+                        <label>ID:</label>
+                        <input type="text" class="form-control" disabled></br>
+                        <label> Full name:</label>
+                        <input type="text" class="form-control" name="fullName"></br>
+                        <label> Abbreviation name:</label>
+                        <input type="text" class="form-control" name="abbreviationName"></br>
+
+                        <button type="submit" formmethod="post" class="btn btn-primary">Add new</button>
+                    </form>
+
+
+                    <!-- Edit modal form -->
+                    <div id="modalEdit" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h2 class="page-header">Edit faculty: </h2>
+                            <form id='formEdit' action="/api/put/faculties" method="post">
+                                <label>ID:</label>
+                                <input type="text" class="form-control" name="id" disabled></br>
+                                <label> Full name:</label>
+                                <input type="text" class="form-control" name="fullName"></br>
+                                <label> Abbreviation name:</label>
+                                <input type="text" class="form-control" name="abbreviationName"></br>
+
+                                <button type="submit" formmethod="POST" class="btn btn-warning">Edit</button>
+                            </form>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                var table = $('#dataTables-example').DataTable({
+                                    ajax: {
+                                        url: '/api/faculties',
+                                        dataSrc: '',
                                     },
-                                    {
-                                        "targets": -2,
-                                        "defaultContent": ["<button id ='btnEdit'>Edit</button>"]
+                                    "columnDefs": [
+                                        {
+                                            "targets": -1,
+                                            "defaultContent": ["<button id='btnDelete' class='btn btn-danger'>Delte</button>"]
+                                        },
+                                        {
+                                            "targets": -2,
+                                            "defaultContent": ["<button id ='btnEdit' class='btn btn-warning'>Edit</button>"]
+                                        }
+                                    ],
+                                    columns: [
+                                        {data: 'id'},
+                                        {data: 'fullName'},
+                                        {data: 'abbreviationName'},
+                                        {data: null},
+                                        {data: null}
+                                    ]
+                                })
+
+                                var modal = document.getElementById('modalEdit');
+                                var span = document.getElementsByClassName("close")[0];
+
+                                $('#dataTables-example tbody').on('click', '#btnDelete', function () {
+                                    var data = table.row($(this).parents('tr')).data();
+                                    if(confirm('Are you sure that you want delete that object?')){
+                                        var deleteUrl = 'api/delete/faculties/' + data["id"];
+                                        $.ajax({
+                                            url: deleteUrl,
+                                            type: 'DELETE',
+                                            success: function (data) {
+                                                modal.style.display = "none";
+                                                table.ajax.reload();
+                                                alert("Data was deleted successfully!")
+                                            }
+                                        })
                                     }
-                                ],
-                                columns: [
-                                    {data: 'id'},
-                                    {data: 'fullName'},
-                                    {data: 'abbreviationName'},
-                                    {data: null},
-                                    {data: null}
-                                ]
-                            })
+
+                                });
+
+                                $('#dataTables-example tbody').on('click', '#btnEdit', function () {
+                                    var data = table.row($(this).parents('tr')).data();
+                                    modal.style.display = "block";
+
+                                    $('#modalEdit input[name="id"]').val(data["id"]);
+                                    $('#modalEdit input[name="fullName"]').val(data["fullName"]);
+                                    $('#modalEdit input[name="abbreviationName"]').val(data["abbreviationName"]);
+
+                                    var editLink = '/api/put/faculties/' + data["id"];
+                                    $('#formEdit').attr('action', editLink);
+
+                                });
+
+                                $('#formEdit').submit(function (e) {
+                                    e.preventDefault();
+                                    var formData = $(this).serialize();
+                                    var formAction = $(this).attr('action');
+                                    $.ajax({
+                                        url: formAction,
+                                        data: formData,
+                                        type: 'PUT',
+                                        success: function (data) {
+                                            modal.style.display = "none";
+                                            table.ajax.reload();
+                                            alert("Data was modified successfully!")
+                                        }
+                                    })
+                                });
 
 
-                            $('#dataTables-example tbody').on( 'click', '#btnDelete', function () {
-                                var data = table.row( $(this).parents('tr') ).data();
-                                alert( "Delete: " + data["fullName"] );
-                            } );
+                                $('#formAddNew').submit(function (e) {
+                                    e.preventDefault();
+                                    var formData = $(this).serialize();
+                                    var formAction = $(this).attr('action');
+                                    $.ajax({
+                                        url: formAction,
+                                        data: formData,
+                                        type: 'POST',
+                                        success: function (data) {
+                                            table.ajax.reload();
+                                            alert("Data has been added successfully!")
+                                        }
+                                    })
+                                });
 
-                            $('#dataTables-example tbody').on( 'click', '#btnEdit', function () {
-                                var data = table.row( $(this).parents('tr') ).data();
-                                alert( "Edit: " + data["fullName"] );
-                            } );
-                        });
+                                span.onclick = function () {
+                                    modal.style.display = "none";
+                                }
+
+                            });
+
+                        </script>
 
 
-                    </script>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
+            <!-- /.container-fluid -->
         </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /#page-wrapper -->
+        <!-- /#page-wrapper -->
 
-</div>
-<!-- /#wrapper -->
+    </div>
+    <!-- /#wrapper -->
 </body>
 </html>
