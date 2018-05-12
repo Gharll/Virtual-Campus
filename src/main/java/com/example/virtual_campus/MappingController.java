@@ -20,4 +20,14 @@ public class MappingController {
     public String login(){
         return "login";
     }
+
+    @GetMapping("/register")
+    public String register(){
+        return "register";
+    }
+
+    @GetMapping("/403")
+    public String error403(){
+        return "error/403";
+    }
 }

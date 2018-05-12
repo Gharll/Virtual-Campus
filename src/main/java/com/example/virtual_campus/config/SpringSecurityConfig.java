@@ -25,19 +25,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.headers().frameOptions().disable();
-        
-        /*
-        *
-        *       .antMatchers("/", "/home", "/about").permitAll()
-                .antMatchers("/faculties").permitAll()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/vendor/**", "/dist/**", "/js/**", "/less/**", "/data/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER")
-        * */
+
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/", "/home").permitAll()
+                    .antMatchers("/vendor/**", "/dist/**", "/js/**", "/less/**", "/data/**").permitAll()
+                    .antMatchers("/register").permitAll()
+                    .antMatchers("/faculties").hasAnyRole("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -58,10 +52,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails user =
                 User.withDefaultPasswordEncoder()
                         .username("user")
-                        .password("password")
+                        .password("")
                         .roles("USER")
                         .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin")
+                        .password("")
+                        .roles("ADMIN")
+                        .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
 }
