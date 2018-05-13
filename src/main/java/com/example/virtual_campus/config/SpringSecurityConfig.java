@@ -17,6 +17,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
 
+
+/*
+ INSERT INTO `role` VALUES (1,'ADMIN');
+ INSERT INTO `role` VALUES (2,'USER');
+*/
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -56,10 +62,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/", "/home").permitAll()
-                    .antMatchers("/vendor/**", "/dist/**", "/js/**", "/less/**", "/data/**").permitAll()
-                    .antMatchers("/register").permitAll()
+                    .antMatchers("/vendor/**", "/dist/**", "/js/**", "/less/**", "/data/**", "/h2/**").permitAll()
+                    .antMatchers("/registration/**").permitAll()
                     .antMatchers("/faculties").hasAnyRole("ADMIN")
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated().and().csrf().disable().formLogin()
+                    .usernameParameter("email")
+                    .passwordParameter("password")
                     .and()
                 .formLogin()
                     .loginPage("/login")
@@ -70,8 +78,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .exceptionHandling()
                     .accessDeniedHandler(customAccessDeniedHandler);
+
     }
 
+    /*
     @SuppressWarnings("deprecation")
     @Bean
     @Override
@@ -91,5 +101,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .build();
 
         return new InMemoryUserDetailsManager(user, admin);
-    }
+    }*/
 }

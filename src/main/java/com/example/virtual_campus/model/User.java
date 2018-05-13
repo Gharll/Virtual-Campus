@@ -15,6 +15,7 @@ import java.util.Set;
 public class User {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
@@ -26,7 +27,7 @@ public class User {
     @Column(name = "password")
     @Length(min = 5, message = "Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
-    @Transient
+
     private String password;
 
     @Column(name = "name")
@@ -42,8 +43,6 @@ public class User {
 
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 }
