@@ -6,7 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository("facultyRepository")
 public interface FacultyRepository extends JpaRepository <Faculty, Long> {
+
+    Faculty findByFullName(String fullName);
+    Faculty findByAbbreviationName(String abbreviationName);
 
 }

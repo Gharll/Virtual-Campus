@@ -12,8 +12,10 @@ public class Faculty implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+
+    @Column(name = "full_name", nullable = false)
     private String fullName;
-    @Column(nullable = false)
+
+    @Column(name = "abbreviation_name", nullable = false)
     private String abbreviationName;
 }

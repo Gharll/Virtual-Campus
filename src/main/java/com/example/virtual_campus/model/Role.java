@@ -1,12 +1,10 @@
 package com.example.virtual_campus.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "role")
 public class Role {
@@ -14,8 +12,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
-    private int id;
+    private Long id;
 
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private String role;
 }

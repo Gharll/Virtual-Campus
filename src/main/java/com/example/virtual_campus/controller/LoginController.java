@@ -2,7 +2,7 @@ package com.example.virtual_campus.controller;
 
 import javax.validation.Valid;
 
-import com.example.virtual_campus.Service.UserService;
+import com.example.virtual_campus.Service.Interface.IUserService;
 import com.example.virtual_campus.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(){

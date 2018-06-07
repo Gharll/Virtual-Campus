@@ -43,9 +43,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private String rolesQuery;
 
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
+
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password(bCryptPasswordEncoder.encode(""))
+                .roles("ADMIN");
+
         auth.
                 jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
@@ -71,6 +78,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/index", true)
                     .permitAll()
                     .and()
                 .logout()
@@ -79,9 +87,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                     .accessDeniedHandler(customAccessDeniedHandler);
 
+
+                /*
+                http.logout()
+                .logoutUrl("/my/logout")
+                .logoutSuccessUrl("/my/index")
+                .logoutSuccessHandler(logoutSuccessHandler)
+                .invalidateHttpSession(true)
+                .addLogoutHandler(logoutHandler)
+                .deleteCookies(cookieNamesToClear)
+                .and();
+                */
     }
 
-    /*
+/*
     @SuppressWarnings("deprecation")
     @Bean
     @Override
@@ -101,5 +120,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         .build();
 
         return new InMemoryUserDetailsManager(user, admin);
-    }*/
+    }
+    */
 }
