@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="fragments/layout" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper" data-layout-fragment="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Courses</h1>
+                    <div class="panel-body" ng-app="myApp" ng-controller="coursesCtrl">
+
+
+                        <table width="100%" class="table table-striped table-bordered table-hover"
+                               id="dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Faculty</th>
+
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                    <!--Add new -->
+                    <form id='formAddNew' action="/api/courses" method="post">
+                        <label>ID:</label>
+                        <input type="text" class="form-control" name="id" disabled></br>
+                        <label> Name:</label>
+                        <input type="text" class="form-control" name="name"></br>
+                        <label> Faculty id</label>
+                        <select class="form-control" name="faculty" id="select-faculty-add">
+                        </select>
+                        </br>
+
+                        <button type="submit" formmethod="post" class="btn btn-primary">Add new</button>
+                    </form>
+
+
+                    <!-- Edit modal form -->
+                    <div id="modalEdit" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h2 class="page-header">Edit course: </h2>
+                            <form id='formEdit' action="/api/put/courses" method="post">
+
+                                <div class="modal-body">
+                                    <label>ID:</label>
+                                    <input type="text" class="form-control" name="id" disabled></br>
+                                    <label> Name:</label>
+                                    <input type="text" class="form-control" name="name"></br>
+                                    <label> Faculty id</label>
+                                    <select class="form-control" id="select-faculty-update">
+                                    </select>
+                                    </br>
+                                </div>
+
+                                <button type="submit" formmethod="POST" class="btn btn-warning">Edit</button>
+                            </form>
+                        </div>
+
+                        <script>
+
+
+                            $(document).ready(function () {
+
+
+                                var select_faculty_add = $('#select-faculty-add');
+                                var select_faculty_update = $('#select-faculty-update');
+
+                                init(select_faculty_add);
+                                init(select_faculty_update);
+
+                                function init(select){
+                                    $.getJSON('api/faculties', function (data) {
+                                        $.each(data, function (key, entry) {
+                                            select.append($('<option></option>').attr('value', entry.id).text(entry.abbreviationName));
+                                        })
+                                    });
+                                }
+
+                                var table = $('#dataTables-example').DataTable({
+                                    ajax: {
+                                        url: '/api/courses',
+                                        dataSrc: '',
+                                    },
+                                    "columnDefs": [
+                                        {
+                                            "targets": -1,
+                                            "defaultContent": ["<button id='btnDelete' class='btn btn-danger'>Delte</button>"]
+                                        },
+                                        {
+                                            "targets": -2,
+                                            "defaultContent": ["<button id ='btnEdit' class='btn btn-warning'>Edit</button>"]
+                                        }
+                                    ],
+                                    columns: [
+                                        {data: 'id'},
+                                        {data: 'name'},
+                                        {data: 'faculty.abbreviationName'},
+                                        {data: null},
+                                        {data: null}
+                                    ]
+                                })
+
+                                var modal = document.getElementById('modalEdit');
+                                var span = document.getElementsByClassName("close")[0];
+
+                                $('#dataTables-example tbody').on('click', '#btnDelete', function () {
+                                    var data = table.row($(this).parents('tr')).data();
+                                    if(confirm('Are you sure that you want delete that object?')){
+                                        var deleteUrl = 'api/delete/courses/' + data["id"];
+                                        $.ajax({
+                                            url: deleteUrl,
+                                            type: 'DELETE',
+                                            success: function (data) {
+                                                modal.style.display = "none";
+                                                table.ajax.reload();
+                                                alert("Data was deleted successfully!")
+                                            }
+                                        })
+                                    }
+
+                                });
+
+                                $('#dataTables-example tbody').on('click', '#btnEdit', function () {
+                                    var data = table.row($(this).parents('tr')).data();
+                                    modal.style.display = "block";
+
+                                    $('#modalEdit input[name="id"]').val(data["id"]);
+                                    $('#modalEdit input[name="name"]').val(data["name"]);
+                                    $('#modalEdit input[name="faculty"]').val(data["faculty"]);
+
+
+                                    var editLink = '/api/put/courses/' + data["id"];
+                                    $('#formEdit').attr('action', editLink);
+
+                                });
+
+                                $('#formEdit').submit(function (e) {
+                                    e.preventDefault();
+                                    var formData = $(this).serialize();
+                                    var formAction = $(this).attr('action');
+                                    $.ajax({
+                                        url: formAction,
+                                        data: formData,
+                                        type: 'PUT',
+                                        success: function (data) {
+                                            modal.style.display = "none";
+                                            table.ajax.reload();
+                                            alert("Data was modified successfully!")
+                                        }
+                                    })
+                                });
+
+
+                                $('#formAddNew').submit(function (e) {
+                                    e.preventDefault();
+                                    var formData = $(this).serialize();
+                                    var formAction = $(this).attr('action');
+                                    $.ajax({
+                                        url: formAction,
+                                        data: formData,
+                                        type: 'POST',
+                                        success: function (data) {
+                                            table.ajax.reload();
+                                            alert("Data has been added successfully!")
+                                        }
+                                    })
+                                });
+
+                                span.onclick = function () {
+                                    modal.style.display = "none";
+                                }
+
+                            });
+
+                        </script>
+
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>

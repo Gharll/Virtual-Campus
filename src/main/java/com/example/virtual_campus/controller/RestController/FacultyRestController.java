@@ -1,5 +1,6 @@
-package com.example.virtual_campus.controller;
+package com.example.virtual_campus.controller.RestController;
 
+import com.example.virtual_campus.controller.RestController.Interface.ICrud;
 import com.example.virtual_campus.exception.ResourceNotFoundException;
 import com.example.virtual_campus.model.Faculty;
 import com.example.virtual_campus.repository.FacultyRepository;
@@ -16,6 +17,7 @@ public class FacultyRestController implements ICrud<Faculty> {
 
     @Autowired
     private FacultyRepository repository;
+
 
     @Override
     @GetMapping("/faculties")

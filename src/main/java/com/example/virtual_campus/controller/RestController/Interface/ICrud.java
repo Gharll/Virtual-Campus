@@ -1,9 +1,7 @@
-package com.example.virtual_campus.controller;
+package com.example.virtual_campus.controller.RestController.Interface;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface ICrud <T> {

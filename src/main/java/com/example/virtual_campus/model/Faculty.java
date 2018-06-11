@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class Faculty implements Serializable {
 
     @Id
+    @Column(name = "faculty_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

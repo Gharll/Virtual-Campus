@@ -1,8 +1,10 @@
 package com.example.virtual_campus.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
@@ -20,7 +22,7 @@ public class Subject implements Serializable {
     @Column(nullable = false)
     private int ects;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition="LONGTEXT")
     private String description;
 
     @Column(name = "lecture_hours")
@@ -37,6 +39,10 @@ public class Subject implements Serializable {
 
     @Column(name = "other_hours")
     private int otherHours;
+
+    @Column(name = "course", nullable = false)
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Course course;
 
 
 }

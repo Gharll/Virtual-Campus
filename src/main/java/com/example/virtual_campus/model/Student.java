@@ -15,12 +15,10 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "roll_number")
+    @Column(name = "roll_number", unique = true, nullable = false)
     private int rollNumber;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "student_subjects", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private Set<Subject> subjects;
+
 
 }
