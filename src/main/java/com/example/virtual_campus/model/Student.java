@@ -23,6 +23,8 @@ public class Student extends UniversityRole {
     @Column(name = "roll_number", unique = true, nullable = false)
     private int rollNumber;
 
+    @OneToOne
+    private Course course;
 
 
 }

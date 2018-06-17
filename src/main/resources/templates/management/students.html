@@ -19,6 +19,7 @@
                                 <th>ID</th>
                                 <th>Roll number</th>
                                 <th>Is active</th>
+                                <th>Course</th>
                                 <th>Activation Code</th>
 
                                 <th>Edit</th>
@@ -35,6 +36,12 @@
                         <input type="text" class="form-control" name="id" disabled></br>
                         <label> Roll number:</label>
                         <input type="number" min="0" step="1" class="form-control" name="rollNumber"></br>
+
+                        <label>Course</label>
+                        <select class="form-control" name="course" id="select-course-add">
+                        </select>
+                        </br>
+
                         <label>Activation Code:</label>
                         <input type="text" class="form-control" name="activationCode"></br>
 
@@ -56,6 +63,12 @@
                                     <input type="text" class="form-control" name="id" disabled></br>
                                     <label> Roll number:</label>
                                     <input type="number" min="0" step="1" class="form-control" name="rollNumber"></br>
+
+                                    <label>Course</label>
+                                    <select class="form-control" name="course" id="select-course-update">
+                                    </select>
+                                    </br>
+
                                     <label>Activation Code:</label>
                                     <input type="text" class="form-control" name="activationCode"></br>
                                 </div>
@@ -65,6 +78,21 @@
                         </div>
 
                         <script>
+
+                            var select_course_add = $('#select-course-add');
+                            var select_course_update = $('#select-course-update');
+
+                            init(select_course_add);
+                            init(select_course_update);
+
+                            function init(select){
+                                $.getJSON('api/courses', function (data) {
+                                    $.each(data, function (key, entry) {
+                                        select.append($('<option></option>').attr('value', entry.id).text(entry.name + " / " + entry.faculty.abbreviationName));
+                                    })
+                                });
+                            }
+
                             $(document).ready(function () {
                                 var table = $('#dataTables-example').DataTable({
                                     ajax: {
@@ -89,6 +117,7 @@
                                         {data: 'id'},
                                         {data: 'rollNumber'},
                                         {data: 'active'},
+                                        {data: 'course.name'},
                                         {data: null},
                                         {data: null},
                                         {data: null}
@@ -122,6 +151,7 @@
                                     $('#modalEdit input[name="id"]').val(data["id"]);
                                     $('#modalEdit input[name="rollNumber"]').val(data["rollNumber"]);
                                     $('#modalEdit input[name="activationCode"]').val(data["activationCode"]);
+                                    $('#modalEdit input[name="course"]').val(data["course"]);
 
 
                                     var editLink = '/api/put/students/' + data["id"];

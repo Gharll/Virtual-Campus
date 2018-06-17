@@ -7,30 +7,37 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class MappingController {
 
+    //Index
+
     @GetMapping("/index")
     public String blank(){
         return "index";
     }
 
-    @GetMapping("/faculties")
+    //Management
+
+    @GetMapping("/management/faculties")
     public String faculties(){
-        return "faculties";
+        return "management/faculties";
     }
 
-    @GetMapping("/subjects")
+    @GetMapping("/management/subjects")
     public String subjects(){
-        return "subjects";
+        return "management/subjects";
     }
 
-    @GetMapping("/students")
+    @GetMapping("/management/students")
     public String students(){
-        return "students";
+        return "management/students";
     }
 
-    @GetMapping("/courses")
+    @GetMapping("/management/courses")
     public String courses(){
-        return "courses";
+        return "management/courses";
     }
+
+
+    //Profile and Settings
 
     @GetMapping("/profile")
     public String profile(){
@@ -41,6 +48,9 @@ public class MappingController {
     public String settings(){
         return "settings";
     }
+
+
+    //Error
 
     @GetMapping("/403")
     public String error403(){
