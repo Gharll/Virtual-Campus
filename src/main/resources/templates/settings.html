@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="fragments/layout" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper" data-layout-fragment="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Settings</h1>
+                    <form id='formActive'>
+                        <label>Put your activation code:</label>
+                        <input type="text" class="form-control" id="input_activation"></br>
+
+                        <button type="submit" formmethod="POST" class="btn btn-primary">Active</button>
+                    </form>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('#formActive').submit(function (e) {
+                                    e.preventDefault();
+                                    var url = "api/put/active/" + $('#input_activation').val();
+                                    $.ajax({
+                                        url: url,
+                                        type: 'PUT',
+                                        success: function (data) {
+                                            alert("Role activated!")
+                                        },
+                                        error: function () {
+                                            alert("Activation failed!")
+                                        }
+                                    })
+                                });
+                            })
+
+                        </script>
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>
