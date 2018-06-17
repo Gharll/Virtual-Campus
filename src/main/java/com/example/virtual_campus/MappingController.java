@@ -22,12 +22,6 @@ public class MappingController {
         return "subjects";
     }
 
-    /*
-    @GetMapping("/subjects/student/{id}")
-    public String students(@PathVariable Long id){
-        return "subjects";
-    }*/
-
     @GetMapping("/students")
     public String students(){
         return "students";
@@ -36,6 +30,11 @@ public class MappingController {
     @GetMapping("/courses")
     public String courses(){
         return "courses";
+    }
+
+    @GetMapping("/profile")
+    public String profile(){
+        return "profile";
     }
 
     @GetMapping("/403")

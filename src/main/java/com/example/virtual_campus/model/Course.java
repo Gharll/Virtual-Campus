@@ -18,10 +18,8 @@ public class Course {
     private String name;
 
 
-    @Column(name = "faculty", nullable = false)
     @ManyToOne(cascade=CascadeType.ALL)
     private Faculty faculty;
-
 
     /*
     @ManyToMany(cascade = CascadeType.ALL)

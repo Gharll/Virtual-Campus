@@ -18,6 +18,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Roll number</th>
+                                <th>Activation Code</th>
+                                <th>Is active</th>
 
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -33,6 +35,8 @@
                         <input type="text" class="form-control" name="id" disabled></br>
                         <label> Roll number:</label>
                         <input type="number" min="0" step="1" class="form-control" name="rollNumber"></br>
+                        <label>Activation Code:</label>
+                        <input type="text" class="form-control" name="activationCode"></br>
 
 
                         <button type="submit" formmethod="post" class="btn btn-primary">Add new</button>
@@ -52,6 +56,8 @@
                                     <input type="text" class="form-control" name="id" disabled></br>
                                     <label> Roll number:</label>
                                     <input type="number" min="0" step="1" class="form-control" name="rollNumber"></br>
+                                    <label>Activation Code:</label>
+                                    <input type="text" class="form-control" name="activationCode"></br>
                                 </div>
 
                                 <button type="submit" formmethod="POST" class="btn btn-warning">Edit</button>
@@ -78,6 +84,8 @@
                                     columns: [
                                         {data: 'id'},
                                         {data: 'rollNumber'},
+                                        {data: 'activationCode'},
+                                        {data: 'active'},
                                         {data: null},
                                         {data: null}
                                     ]
@@ -108,7 +116,8 @@
                                     modal.style.display = "block";
 
                                     $('#modalEdit input[name="id"]').val(data["id"]);
-                                    $('#modalEdit input[name="name"]').val(data["rollNumber"]);
+                                    $('#modalEdit input[name="rollNumber"]').val(data["rollNumber"]);
+                                    $('#modalEdit input[name="activationCode"]').val(data["activationCode"]);
 
 
                                     var editLink = '/api/put/students/' + data["id"];

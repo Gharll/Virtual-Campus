@@ -19,6 +19,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>ECTS</th>
+                                <th>Course</th>
                                 <th>Description</th>
                                 <th>Lecture Hours</th>
                                 <th>Tutorials Hours</th>
@@ -42,12 +43,18 @@
                         <input type="text" class="form-control" name="name"></br>
                         <label> ECTS:</label>
                         <input type="number" min="0" step="1" class="form-control" name="ects"></br>
+
+                        <label>Course</label>
+                        <select class="form-control" name="course" id="select-course-add">
+                        </select>
+                        </br>
+
                         <label> Description:</label>
                         <input type="text" maxlength="255" class="form-control" name="description"></br>
                         <label> Lecture Hours:</label>
                         <input type="number" min="0" step="1" class="form-control" name="lectureHours"></br>
                         <label> Tutorial Hours:</label>
-                        <input type="number" min="0" step="1" class="form-control" name="tutorialHours"></br>
+                        <input type="number" min="0" step="1" class="form-control" name="tutorialsHours"></br>
                         <label> Project Hours:</label>
                         <input type="number" min="0" step="1" class="form-control" name="projectHours"></br>
                         <label> Seminar Hours:</label>
@@ -74,12 +81,18 @@
                                 <input type="text" class="form-control" name="name"></br>
                                 <label> ECTS:</label>
                                 <input type="number" min="0" step="1" class="form-control" name="ects"></br>
+
+                                    <label>Course</label>
+                                    <select class="form-control" name="course" id="select-course-update">
+                                    </select>
+                                    </br>
+
                                 <label > Description:</label>
                                 <input type="text" maxlength="255" class="form-control" name="description"></br>
                                 <label> Lecture Hours:</label>
                                 <input type="number" min="0" step="1" class="form-control" name="lectureHours"></br>
                                 <label> Tutorial Hours:</label>
-                                <input type="number" min="0" step="1" class="form-control" name="tutorialHours"></br>
+                                <input type="number" min="0" step="1" class="form-control" name="tutorialsHours"></br>
                                 <label> Project Hours:</label>
                                 <input type="number" min="0" step="1" class="form-control" name="projectHours"></br>
                                 <label> Seminar Hours:</label>
@@ -94,6 +107,21 @@
 
                         <script>
                             $(document).ready(function () {
+
+                                var select_course_add = $('#select-course-add');
+                                var select_course_update = $('#select-course-update');
+
+                                init(select_course_add);
+                                init(select_course_update);
+
+                                function init(select){
+                                    $.getJSON('api/courses', function (data) {
+                                        $.each(data, function (key, entry) {
+                                            select.append($('<option></option>').attr('value', entry.id).text(entry.name + " / " + entry.faculty.abbreviationName));
+                                        })
+                                    });
+                                }
+
                                 var table = $('#dataTables-example').DataTable({
                                     ajax: {
                                         url: '/api/subjects',
@@ -113,6 +141,7 @@
                                         {data: 'id'},
                                         {data: 'name'},
                                         {data: 'ects'},
+                                        {data: 'course.name'},
                                         {data: 'description'},
                                         {data: 'lectureHours'},
                                         {data: 'tutorialsHours'},
@@ -151,6 +180,7 @@
                                     $('#modalEdit input[name="id"]').val(data["id"]);
                                     $('#modalEdit input[name="name"]').val(data["name"]);
                                     $('#modalEdit input[name="ects"]').val(data["ects"]);
+                                    $('#modalEdit input[name="course"]').val(data["course"]);
                                     $('#modalEdit input[name="description"]').val(data["description"]);
                                     $('#modalEdit input[name="lectureHours"]').val(data["lectureHours"]);
                                     $('#modalEdit input[name="tutorialsHours"]').val(data["tutorialsHours"]);

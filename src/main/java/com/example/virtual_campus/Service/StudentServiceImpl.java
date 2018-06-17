@@ -22,6 +22,11 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public Student findByActivationCode(String activationCode) {
+        return studentRepository.findByActivationCode(activationCode);
+    }
+
+    @Override
     public void save(Student student) {
         studentRepository.save(student);
     }

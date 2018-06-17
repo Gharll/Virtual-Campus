@@ -40,9 +40,8 @@ public class Subject implements Serializable {
     @Column(name = "other_hours")
     private int otherHours;
 
-    @Column(name = "course", nullable = false)
+
     @ManyToOne(cascade=CascadeType.ALL)
     private Course course;
-
 
 }

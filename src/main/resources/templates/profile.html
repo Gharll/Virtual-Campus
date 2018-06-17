@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="fragments/layout" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper" data-layout-fragment="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Profile</h1>
+                    <div id="display-resources">
+                    </div>
+
+                        <script>
+
+                            function create_info(vheader, vinfo){
+                                var content = "";
+                                var header = "<b>" + vheader + ": </b>";
+                                content = header + vinfo + "</br>";
+                                return content;
+                            }
+
+
+                            $(document).ready(function () {
+                                var displayResources = $('#display-resources');
+                                $.ajax({
+                                    type: "GET",
+                                    url: "api/user",
+                                    success: function (result) {
+                                        var content = "";
+                                        content += create_info("E-mail", result.email);
+                                        content += create_info("Name", result.name);
+                                        content += create_info("Last Name", result.lastName);
+
+                                        content += "<b>Permissions: </b>";
+                                        $.each(result.roles, function (i, item) {
+                                            content += item.role
+                                            if(i != result.roles.length - 1){
+                                                content += ", ";
+                                            }
+                                        })
+                                        displayResources.html(content);
+                                    }
+                                })
+                            })
+                        </script>
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>

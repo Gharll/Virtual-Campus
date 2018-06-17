@@ -7,4 +7,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findByRollNumber(int rollNumber);
     Student findById(int id);
+    Student findByActivationCode(String activationCode);
 }

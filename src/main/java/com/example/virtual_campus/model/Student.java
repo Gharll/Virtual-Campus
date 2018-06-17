@@ -18,7 +18,12 @@ public class Student {
     @Column(name = "roll_number", unique = true, nullable = false)
     private int rollNumber;
 
+    @Column(name= "activation_code", unique = true)
+    private String activationCode;
 
+    private boolean isActive = false;
 
+    @OneToOne
+    private User user;
 
 }

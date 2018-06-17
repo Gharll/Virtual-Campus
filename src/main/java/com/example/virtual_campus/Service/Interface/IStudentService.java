@@ -7,5 +7,6 @@ public interface IStudentService {
 
     Student findByRollNumber(int rollNumber);
     Student findById(int id);
+    Student findByActivationCode(String activationCode);
     void save(Student student);
 }
