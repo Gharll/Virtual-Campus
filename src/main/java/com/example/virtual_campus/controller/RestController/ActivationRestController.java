@@ -7,6 +7,7 @@ import com.example.virtual_campus.repository.StudentRepository;
 import com.example.virtual_campus.repository.UniversityRoleRepository;
 import com.example.virtual_campus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +28,8 @@ public class ActivationRestController {
     private UserRepository userRepository;
 
     @PutMapping("put/active/{activationCode}")
-    public UniversityRole update(@PathVariable(value = "activationCode") String activationCode,
-                          @Valid Student studentDetails) {
+    public ResponseEntity update(@PathVariable(value = "activationCode") String activationCode,
+                                 @Valid Student studentDetails) {
 
         UniversityRole universityRole = universityRoleRepository.findByActivationCode(activationCode);
         if(universityRole != null && !universityRole.isActive()){
@@ -39,9 +40,10 @@ public class ActivationRestController {
             universityRole.setActive(true);
             universityRole.setUser(user);
 
-            return universityRoleRepository.save(universityRole);
+            universityRoleRepository.save(universityRole);
+            return ResponseEntity.ok().build();
         }
 
-        return null;
+        return ResponseEntity.notFound().build();
     }
 }

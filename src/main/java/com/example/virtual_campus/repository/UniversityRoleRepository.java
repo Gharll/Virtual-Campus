@@ -2,6 +2,7 @@ package com.example.virtual_campus.repository;
 
 import com.example.virtual_campus.model.Student;
 import com.example.virtual_campus.model.UniversityRole;
+import com.example.virtual_campus.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,5 @@ import java.util.List;
 public interface UniversityRoleRepository extends JpaRepository<UniversityRole, Long> {
 
     UniversityRole findByActivationCode(String activationCode);
+    List <UniversityRole> findByUser(User user);
 }

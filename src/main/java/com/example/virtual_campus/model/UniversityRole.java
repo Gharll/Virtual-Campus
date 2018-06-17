@@ -1,5 +1,6 @@
 package com.example.virtual_campus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,12 +17,15 @@ public class UniversityRole {
     private long id;
 
     @Column(name= "activation_code", unique = true)
+    @JsonIgnore
     private String activationCode;
 
+    @JsonIgnore
     private boolean isActive = false;
 
     protected String role;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 }

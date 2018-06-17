@@ -18,8 +18,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Roll number</th>
-                                <th>Activation Code</th>
                                 <th>Is active</th>
+                                <th>Activation Code</th>
 
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -79,13 +79,17 @@
                                         {
                                             "targets": -2,
                                             "defaultContent": ["<button id ='btnEdit' class='btn btn-warning'>Edit</button>"]
+                                        },
+                                        {
+                                            "targets": -3,
+                                            "defaultContent": ["<button id ='btnShowActivationCode' class='btn btn-info'>Show</button>"]
                                         }
                                     ],
                                     columns: [
                                         {data: 'id'},
                                         {data: 'rollNumber'},
-                                        {data: 'activationCode'},
                                         {data: 'active'},
+                                        {data: null},
                                         {data: null},
                                         {data: null}
                                     ]

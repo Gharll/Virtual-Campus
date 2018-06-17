@@ -16,11 +16,13 @@ public class Student extends UniversityRole {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;*/
 
+    public Student(){
+        setRole("STUDENT");
+    }
+
     @Column(name = "roll_number", unique = true, nullable = false)
     private int rollNumber;
 
-   public Student(){
-       setRole("STUDENT");
-   }
+
 
 }

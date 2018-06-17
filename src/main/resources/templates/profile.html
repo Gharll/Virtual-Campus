@@ -29,18 +29,29 @@
                                     url: "api/user",
                                     success: function (result) {
                                         var content = "";
-                                        content += create_info("E-mail", result.email);
-                                        content += create_info("Name", result.name);
-                                        content += create_info("Last Name", result.lastName);
+                                        content += create_info("E-mail", result.user.email);
+                                        content += create_info("Name", result.user.name);
+                                        content += create_info("Last Name", result.user.lastName);
 
                                         content += "<b>Permissions: </b>";
-                                        $.each(result.roles, function (i, item) {
+                                        $.each(result.user.roles, function (i, item) {
                                             content += item.role
-                                            if(i != result.roles.length - 1){
+                                            if(i != result.user.roles.length - 1){
+                                                content += ", ";
+                                            }
+
+                                            content +="</br>";
+                                        });
+
+                                        content += "<b>University Roles: </b>";
+                                        $.each(result.universityRoles, function (i, item) {
+                                            content += item.role;
+                                            if(i != result.universityRoles.length - 1){
                                                 content += ", ";
                                             }
                                         })
                                         displayResources.html(content);
+                                        content +="</br>";
                                     }
                                 })
                             })
