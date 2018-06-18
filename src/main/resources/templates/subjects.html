@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-layout-decorate="fragments/layout" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div id="wrapper">
+    <!-- Page Content -->
+    <div id="page-wrapper" data-layout-fragment="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Subjects</h1>
+
+                    <table width="100%" class="table table-striped table-bordered table-hover"
+                           id="dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>ECTS</th>
+                            <th>Course</th>
+                            <th>Description</th>
+                            <th>Lecture Hours</th>
+                            <th>Tutorials Hours</th>
+                            <th>Project Hours</th>
+                            <th>Seminar Hours</th>
+                            <th>Other Hours</th>
+
+                        </tr>
+                        </thead>
+
+                    </table>
+
+                    <div id="display-resources">
+                    </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $.getJSON('/api/user', function (data) {
+                                    id = data.universityRoles[0].course.id;
+                                    var table = $('#dataTables-example').DataTable({
+                                        ajax: {
+                                            url: '/api/get/subjects/course/' + id,
+                                            dataSrc: '',
+                                        },
+                                        columns: [
+                                            {data: 'id'},
+                                            {data: 'name'},
+                                            {data: 'ects'},
+                                            {data: 'course.name'},
+                                            {data: 'description'},
+                                            {data: 'lectureHours'},
+                                            {data: 'tutorialsHours'},
+                                            {data: 'projectHours'},
+                                            {data: 'seminarHours'},
+                                            {data: 'otherHours'},
+                                        ]
+                                    })
+                                });
+
+                            })
+                        </script>
+
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+</body>
+</html>

@@ -20,4 +20,11 @@ public class MappingController {
         return "settings";
     }
 
+
+
+    @GetMapping("/subjects")
+    public String subjects(){
+        return "subjects";
+    }
+
 }

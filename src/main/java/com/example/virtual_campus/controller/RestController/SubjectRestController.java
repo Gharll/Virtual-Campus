@@ -2,6 +2,7 @@ package com.example.virtual_campus.controller.RestController;
 
 import com.example.virtual_campus.controller.RestController.Interface.ICrud;
 import com.example.virtual_campus.exception.ResourceNotFoundException;
+import com.example.virtual_campus.model.Course;
 import com.example.virtual_campus.model.Faculty;
 import com.example.virtual_campus.model.Subject;
 import com.example.virtual_campus.repository.FacultyRepository;
@@ -36,6 +37,11 @@ public class SubjectRestController implements ICrud<Subject> {
     @GetMapping("get/subjects/{id}")
     public Subject getById(@PathVariable(value = "id") Long id) {
         return findById(id);
+    }
+
+    @GetMapping("get/subjects/course/{id}")
+    public List<Subject> getByCourse(@PathVariable(value = "id") Course id) {
+        return repository.findByCourse(id);
     }
 
     @Override

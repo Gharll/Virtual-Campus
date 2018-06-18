@@ -86,7 +86,7 @@
                             init(select_course_update);
 
                             function init(select){
-                                $.getJSON('api/courses', function (data) {
+                                $.getJSON('/api/courses', function (data) {
                                     $.each(data, function (key, entry) {
                                         select.append($('<option></option>').attr('value', entry.id).text(entry.name + " / " + entry.faculty.abbreviationName));
                                     })

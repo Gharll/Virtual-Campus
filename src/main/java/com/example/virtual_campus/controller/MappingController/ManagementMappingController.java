@@ -10,21 +10,21 @@ public class ManagementMappingController {
 
     @GetMapping("/faculties")
     public String faculties(){
-        return "management/faculties";
+        return "/management/faculties-management";
     }
 
     @GetMapping("/subjects")
     public String subjects(){
-        return "management/subjects";
+        return "/management/subjects-management";
     }
 
     @GetMapping("/students")
     public String students(){
-        return "management/students";
+        return "/management/students-management";
     }
 
     @GetMapping("/courses")
     public String courses(){
-        return "management/courses";
+        return "/management/courses-management";
     }
 }
