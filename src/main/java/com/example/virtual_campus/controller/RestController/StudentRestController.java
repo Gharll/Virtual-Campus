@@ -9,6 +9,8 @@ import com.example.virtual_campus.repository.FacultyRepository;
 import com.example.virtual_campus.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,6 +41,15 @@ public class StudentRestController implements ICrud<Student> {
     @GetMapping("get/students/{id}")
     public Student getById(@PathVariable(value = "id") Long id) {
         return findById(id);
+    }
+
+
+
+    @GetMapping("get/students/activationCode/{id}")
+    public String getActivationCodeById(@PathVariable(value = "id") Long id) {
+        Student student = findById(id);
+        return student.getActivationCode();
+
     }
 
 

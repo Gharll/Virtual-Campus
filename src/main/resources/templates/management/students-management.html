@@ -144,6 +144,19 @@
 
                                 });
 
+                                $('#dataTables-example tbody').on('click', '#btnShowActivationCode', function () {
+                                    var data = table.row($(this).parents('tr')).data();
+                                    var studentUrl = '/api/get/students/activationCode/' + data["id"];
+                                    $.ajax({
+                                        url: studentUrl,
+                                        type: 'GET',
+                                        success: function (data) {
+                                            alert("Activation Code: " + data);
+                                        }
+                                    })
+                                });
+
+
                                 $('#dataTables-example tbody').on('click', '#btnEdit', function () {
                                     var data = table.row($(this).parents('tr')).data();
                                     modal.style.display = "block";
@@ -190,6 +203,8 @@
                                         }
                                     })
                                 });
+
+
 
                                 span.onclick = function () {
                                     modal.style.display = "none";
