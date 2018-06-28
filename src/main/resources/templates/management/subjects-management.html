@@ -115,7 +115,7 @@
                                 init(select_course_update);
 
                                 function init(select){
-                                    $.getJSON('api/courses', function (data) {
+                                    $.getJSON('/api/courses', function (data) {
                                         $.each(data, function (key, entry) {
                                             select.append($('<option></option>').attr('value', entry.id).text(entry.name + " / " + entry.faculty.abbreviationName));
                                         })
@@ -159,7 +159,7 @@
                                 $('#dataTables-example tbody').on('click', '#btnDelete', function () {
                                     var data = table.row($(this).parents('tr')).data();
                                     if(confirm('Are you sure that you want delete that object?')){
-                                        var deleteUrl = 'api/delete/subjects/' + data["id"];
+                                        var deleteUrl = '/api/delete/subjects/' + data["id"];
                                         $.ajax({
                                             url: deleteUrl,
                                             type: 'DELETE',
